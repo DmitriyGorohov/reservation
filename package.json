@@ -4,10 +4,18 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "react-native run-ios --simulator='iPhone 15 Pro'",
+    "reset": "watchman watch-del-all && yarn start —reset-cache",
+    "clean-android": "cd android && ./gradlew clean && cd ../",
+    "clean-ios": "cd ios && xcodebuild clean && cd ../",
+    "pods": "cd ios && pod install && cd ..",
+    "pods-deintegrate": "cd ios && arch -x86_64 pod deintegrate && cd ..",
+    "pods-update": "cd ios && arch -x86_64 pod update && cd ..",
+    "build-android": "cd android && ./gradlew assembleRelease && cd ..",
+    "realese-android": "cd android && ./gradlew bundleRelease && cd ..",
     "lint": "eslint .",
-    "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "start": "react-native start"
   },
   "dependencies": {
     "react": "18.3.1",
