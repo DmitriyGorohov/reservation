@@ -3,12 +3,16 @@ import { Dimensions } from 'react-native';
 export type ListType = {
     id: number;
     title: string;
+    price?: string;
+    name: string;
     image: ReturnType<typeof require>;
 };
 
 export const listItems: ListType[] = [
     {
         id: 1,
+        price: '3/€',
+        name: 'Basic',
         title:
             'Basic (3 euros per hour)\n' +
             'Free parking\n' +
@@ -18,6 +22,8 @@ export const listItems: ListType[] = [
     },
     {
         id: 2,
+        price: '7/€',
+        name: 'Advance',
         title:
             'Everything in Basic +\n' +
             'Private booths for video calls\n' +
@@ -28,6 +34,8 @@ export const listItems: ListType[] = [
     },
     {
         id: 3,
+        price: '15/€',
+        name: 'VIP',
         title:
             'Everything in Advanced +\n' +
             'Separate area with panoramic window.\n' +
@@ -40,6 +48,8 @@ export const listItems: ListType[] = [
     },
     {
         id: 4,
+        price: '',
+        name: 'SuperVIP',
         title:
             'SuperVIP (50 euros per hour)\n' +
             'Everything in VIP +\n' +

@@ -18,6 +18,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import Navigation from '../../navigation/navigation.ts';
 import { Screens } from '../../navigation/consts';
+import Card from '../../components/Card.tsx';
 
 interface HomeScreenProps {}
 
@@ -63,21 +64,7 @@ const HomeScreen: FC<HomeScreenProps> = (): React.JSX.Element => {
                 >
                     Your card
                 </Text>
-                <View
-                    style={{
-                        alignItems: 'center',
-                        width: '100%',
-                        overflow: 'hidden',
-                        justifyContent: 'center',
-                        marginBottom: 22,
-                    }}
-                >
-                    <Image
-                        style={{ height: 240, borderRadius: 16 }}
-                        resizeMode={'contain'}
-                        source={require('../../assets/img/credit-card-image/47.png')}
-                    />
-                </View>
+                <Card />
                 <Text
                     onPress={() => Navigation.navigate(Screens.TARIF)}
                     style={{
@@ -115,14 +102,47 @@ const HomeScreen: FC<HomeScreenProps> = (): React.JSX.Element => {
                             return (
                                 <View
                                     style={{
+                                        overflow: 'hidden',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         width: windowWidth - 32,
+
+                                        height: 160,
+                                        borderRadius: 50,
                                     }}
                                 >
+                                    <Text
+                                        style={{
+                                            position: 'absolute',
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            zIndex: 999,
+                                        }}
+                                    >
+                                        {item.name}
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            position: 'absolute',
+                                            color: Colors.white,
+                                            fontSize: 34,
+                                            bottom: 12,
+                                            right: 32,
+                                            zIndex: 999,
+                                        }}
+                                    >
+                                        {item.price}
+                                    </Text>
                                     <Image
-                                        resizeMode={'contain'}
-                                        source={item.image}
+                                        resizeMode={'cover'}
+                                        style={{
+                                            borderWidth: 1,
+                                            borderColor: Colors.white,
+                                            width: windowWidth - 72,
+                                            height: 160,
+                                            borderRadius: 30,
+                                        }}
+                                        source={require('../../assets/img/background-cart/background-cart.png')}
                                     />
                                 </View>
                             );

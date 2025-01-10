@@ -181,14 +181,47 @@ const ReservationScreen: FC<ReservationScreenProps> = (): React.JSX.Element => {
                             return (
                                 <View
                                     style={{
+                                        overflow: 'hidden',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         width: windowWidth - 32,
+
+                                        height: 160,
+                                        borderRadius: 50,
                                     }}
                                 >
+                                    <Text
+                                        style={{
+                                            position: 'absolute',
+                                            color: Colors.white,
+                                            fontSize: 28,
+                                            zIndex: 999,
+                                        }}
+                                    >
+                                        {item.name}
+                                    </Text>
+                                    <Text
+                                        style={{
+                                            position: 'absolute',
+                                            color: Colors.white,
+                                            fontSize: 34,
+                                            bottom: 12,
+                                            right: 32,
+                                            zIndex: 999,
+                                        }}
+                                    >
+                                        {item.price}
+                                    </Text>
                                     <Image
-                                        resizeMode={'contain'}
-                                        source={item.image}
+                                        resizeMode={'cover'}
+                                        style={{
+                                            borderWidth: 1,
+                                            borderColor: Colors.white,
+                                            width: windowWidth - 72,
+                                            height: 160,
+                                            borderRadius: 30,
+                                        }}
+                                        source={require('../../assets/img/background-cart/background-cart.png')}
                                     />
                                 </View>
                             );
