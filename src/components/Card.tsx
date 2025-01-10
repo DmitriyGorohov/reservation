@@ -27,7 +27,7 @@ const Card: FC<CardProps> = (): React.JSX.Element => {
                     source={require('../assets/img/wifi/Paypass.png')}
                 />
             </View>
-            <Text style={{ color: Colors.white, fontSize: 18, paddingLeft: 16, marginTop: 20, }}>Discount: 1%</Text>
+            <Text style={{ color: Colors.white, fontSize: 18, paddingLeft: 16, marginTop: 10, }}>Discount: 1%</Text>
             <Text style={{ color: Colors.white, fontSize: 18, paddingLeft: 16 }}>Cashback: 1%</Text>
             <Text style={{  textAlign: 'right', color: Colors.white, fontSize: 24, paddingRight: 16 }}>0/24</Text>
             <View
