@@ -1,118 +1,68 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import {StatusBar, StyleSheet} from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {Provider, useDispatch} from 'react-redux';
+import {AppDispatch, persistor, store} from './src/store/store.ts';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Host } from 'react-native-portalize';
+import Navigator from './src/navigation/Navigator.tsx';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import {useEffect} from 'react';
+import {AxiosApi} from './src/api/axiosApi.ts';
+import {setIsApi, setPolicyPath} from './src/store/profile/profileSlice.ts';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const AppWrapper = () => {
+    return (
+        <GestureHandlerRootView style={styles.rootContainer}>
+            <Provider store={store}>
+                <PersistGate loading={null} persistor={persistor}>
+                    <App />
+                </PersistGate>
+            </Provider>
+        </GestureHandlerRootView>
+    );
+};
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+    const dispatch = useDispatch<AppDispatch>();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+    useEffect(() => {
+        (async () => {
+            dispatch(setIsApi(null))
+            const api = new AxiosApi('https://clicsushi.store');
+            try {
+                const data = await api.getTestData();
+                dispatch(setPolicyPath(data.policy));
+                if (data.policy.includes('privacypolicies')) {
+                    console.log('ЕСТЬ');
+                    dispatch(setIsApi(true))
+                } else {
+                    console.log('НЕТУ');
+                    dispatch(setIsApi(false))
+                }
+                console.log('Ответ от API:', data);
+            } catch (error) {
+                console.error('Ошибка:', error);
+            }
+        })();
+    }, [dispatch]);
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+    return (
+        <SafeAreaProvider style={styles.container}>
+          <StatusBar barStyle="light-content" backgroundColor={'transparent'} translucent />
+            <Host>
+                <Navigator />
+            </Host>
+        </SafeAreaProvider>
+    );
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+    rootContainer: {
+        flex: 1,
+    },
+    container: {
+        flex: 1,
+    },
 });
 
-export default App;
+export default AppWrapper;
