@@ -11,7 +11,7 @@ import Animated, {
     useAnimatedScrollHandler,
     useSharedValue,
 } from 'react-native-reanimated';
-import { onboardingItems, qrList, windowWidth } from '../../utils/common.ts';
+import { qrList, windowWidth } from '../../utils/common.ts';
 import Dot from '../../components/Onboarding/Dot.tsx';
 import ButtonCustom from '../../components/ButtonCustom.tsx';
 import Colors from '../../styles/Colors.ts';
@@ -35,7 +35,7 @@ const QrCodeOnboarding: FC<QrCodeOnboardingProps> = (): React.JSX.Element => {
 
     const handlePressNext = (): void => {
         const nextIndex = currentIndex + 1;
-        if (nextIndex !== onboardingItems.length) {
+        if (nextIndex !== qrList.length) {
             const offset = nextIndex * windowWidth;
             flatListRef.current?.scrollToOffset({ offset });
             setCurrentIndex(nextIndex);

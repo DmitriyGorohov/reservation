@@ -8,7 +8,7 @@ import {
     View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { listItems } from '../../utils/common.ts';
+import {listItems, windowWidth} from '../../utils/common.ts';
 import Colors from '../../styles/Colors.ts';
 import Navigation from '../../navigation/navigation.ts';
 
@@ -26,7 +26,7 @@ const TarifScreen: FC<TarifScreenProps> = (): React.JSX.Element => {
                             color: Colors.white,
                         }}
                     >
-                        Tarif List
+                        Tariff List
                     </Text>
                     <TouchableOpacity
                         activeOpacity={0.8}
@@ -60,31 +60,82 @@ const TarifScreen: FC<TarifScreenProps> = (): React.JSX.Element => {
                 </View>
                 {listItems.map((item, index) => {
                     return (
-                        <View
-                            key={`${item.id}_${index}`}
-                            style={{
-                                width: '100%',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                marginBottom: 20,
-                            }}
-                        >
-                            <Image
-                                source={item.image}
+                        <>
+                            <View
+                                key={`${item.id}_${index}`}
                                 style={{
-                                    marginBottom: 12,
+                                    marginBottom: 20,
+                                    overflow: 'hidden',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    width: windowWidth - 32,
+
+                                    height: 160,
+                                    borderRadius: 50,
                                 }}
-                            />
+                            >
+                                <Text
+                                    style={{
+                                        position: 'absolute',
+                                        color: Colors.white,
+                                        fontSize: 28,
+                                        zIndex: 999,
+                                    }}
+                                >
+                                    {item.name}
+                                </Text>
+                                <Text
+                                    style={{
+                                        position: 'absolute',
+                                        color: Colors.white,
+                                        fontSize: 34,
+                                        bottom: 12,
+                                        right: 32,
+                                        zIndex: 999,
+                                    }}
+                                >
+                                    {item.price}
+                                </Text>
+                                <Image
+                                    resizeMode={'cover'}
+                                    style={{
+                                        borderWidth: 1,
+                                        borderColor: Colors.white,
+                                        width: windowWidth - 72,
+                                        height: 160,
+                                        borderRadius: 30,
+                                    }}
+                                    source={require('../../assets/img/background-cart/background-cart.png')}
+                                />
+                            </View>
                             <Text
                                 style={{
                                     fontSize: 24,
+                                    marginBottom: 20,
                                     textAlign: 'center',
                                     color: Colors.white,
                                 }}
                             >
                                 {item.title}
                             </Text>
-                        </View>
+                        </>
+                        // <View
+                        //     key={`${item.id}_${index}`}
+                        //     style={{
+                        //         width: '100%',
+                        //         alignItems: 'center',
+                        //         justifyContent: 'center',
+                        //         marginBottom: 20,
+                        //     }}
+                        // >
+                        //     <Image
+                        //         source={item.image}
+                        //         style={{
+                        //             marginBottom: 12,
+                        //         }}
+                        //     />
+                        //
+                        // </View>
                     );
                 })}
             </ScrollView>
