@@ -1,14 +1,18 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import { profileSelector } from '../../store/profile/profileSlice.ts';
 import WebView from 'react-native-webview';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import Colors from '../../styles/Colors.ts';
+import ButtonCustom from '../../components/ButtonCustom.tsx';
+import Navigation from '../../navigation/navigation.ts';
 
 export const WebScreen = (): React.JSX.Element => {
     const { policyPath } = useSelector(profileSelector);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <WebView
                 source={{
                     uri: policyPath,
@@ -22,13 +26,15 @@ export const WebScreen = (): React.JSX.Element => {
                 javaScriptEnabled
                 domStorageEnabled
             />
-        </View>
+            <ButtonCustom onPress={() => Navigation.pop()} title={'Back'} />
+        </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingHorizontal: 16,
+        backgroundColor: Colors.white,
     },
 });
 
