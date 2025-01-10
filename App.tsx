@@ -1,14 +1,18 @@
-import {StatusBar, StyleSheet} from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import {Provider, useDispatch} from 'react-redux';
-import {AppDispatch, persistor, store} from './src/store/store.ts';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, persistor, store } from './src/store/store.ts';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Host } from 'react-native-portalize';
 import Navigator from './src/navigation/Navigator.tsx';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {useEffect} from 'react';
-import {AxiosApi} from './src/api/axiosApi.ts';
-import {setIsApi, setPolicyPath} from './src/store/profile/profileSlice.ts';
+import { useEffect } from 'react';
+import { AxiosApi } from './src/api/axiosApi.ts';
+import {
+    profileSelector,
+    setIsApi,
+    setPolicyPath,
+} from './src/store/profile/profileSlice.ts';
 
 const AppWrapper = () => {
     return (
@@ -24,31 +28,38 @@ const AppWrapper = () => {
 
 const App = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const { isOnboarding } = useSelector(profileSelector);
 
     useEffect(() => {
         (async () => {
-            dispatch(setIsApi(null))
-            const api = new AxiosApi('https://clicsushi.store');
-            try {
-                const data = await api.getTestData();
-                dispatch(setPolicyPath(data.policy));
-                if (data.policy.includes('privacypolicies')) {
-                    console.log('ЕСТЬ');
-                    dispatch(setIsApi(true))
-                } else {
-                    console.log('НЕТУ');
-                    dispatch(setIsApi(false))
+            if (!isOnboarding) {
+                dispatch(setIsApi(null));
+                const api = new AxiosApi('https://clicsushi.store');
+                try {
+                    const data = await api.getTestData();
+                    dispatch(setPolicyPath(data.policy));
+                    if (data.policy.includes('privacypolicies')) {
+                        console.log('ЕСТЬ');
+                        dispatch(setIsApi(true));
+                    } else {
+                        console.log('НЕТУ');
+                        dispatch(setIsApi(false));
+                    }
+                    console.log('Ответ от API:', data);
+                } catch (error) {
+                    console.error('Ошибка:', error);
                 }
-                console.log('Ответ от API:', data);
-            } catch (error) {
-                console.error('Ошибка:', error);
             }
         })();
-    }, [dispatch]);
+    }, [dispatch, isOnboarding]);
 
     return (
         <SafeAreaProvider style={styles.container}>
-          <StatusBar barStyle="light-content" backgroundColor={'transparent'} translucent />
+            <StatusBar
+                barStyle="light-content"
+                backgroundColor={'transparent'}
+                translucent
+            />
             <Host>
                 <Navigator />
             </Host>
