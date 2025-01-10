@@ -26,7 +26,7 @@ export const WebScreen = (): React.JSX.Element => {
                 javaScriptEnabled
                 domStorageEnabled
             />
-            <ButtonCustom onPress={() => Navigation.pop()} title={'Back'} />
+            <ButtonCustom style={{ marginBottom: 20 }} onPress={() => Navigation.pop()} title={'Back'} />
         </SafeAreaView>
     );
 };
