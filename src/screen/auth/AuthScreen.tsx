@@ -215,7 +215,7 @@ const AuthScreen: FC<AuthScreenProps> = (): React.JSX.Element => {
                                         fontSize: 24,
                                     }}
                                 >
-                                    All expenditures: 800$
+                                    All expenditures: 0$
                                 </Text>
                                 <Text
                                     style={{
@@ -226,7 +226,7 @@ const AuthScreen: FC<AuthScreenProps> = (): React.JSX.Element => {
                                         opacity: 0.5,
                                     }}
                                 >
-                                    Total hours: 15h
+                                    Total hours: 0h
                                 </Text>
                             </>
                         )}

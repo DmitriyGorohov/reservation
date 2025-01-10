@@ -87,7 +87,7 @@ const HomeScreen: FC<HomeScreenProps> = (): React.JSX.Element => {
                         opacity: 0.5,
                     }}
                 >
-                    Tariff list
+                    {'Tariff list  >'}
                 </Text>
                 <View
                     style={{
